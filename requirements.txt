@@ -1,0 +1,14 @@
+django
+pillow
+django-crispy-forms
+django-admin-interface
+mysqlclient
+pymysql
+djangorestframework
+crispy-bootstrap4
+django-mssql
+django-mssql-backend
+django-odbc
+mssql-django 
+django-pyodbc
+transbank-sdk
