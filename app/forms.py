@@ -18,6 +18,6 @@ class SolicitudForm(forms.ModelForm):
      class Meta:
           model = Solicitud
           fields = '__all__'
-          exclude = ['run_emp']
+          exclude = ['run_emp','id_solicitud']
 
           

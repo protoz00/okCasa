@@ -1,2 +1,35 @@
 {% extends 'patron.html' %}
 {% load static %}
+<title>{% block titulo %}OK Casa{% endblock titulo %}</title>
+{%block body%}
+<html>
+<head>
+    <div class="container mt-3">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>id solicitud</th>
+            <th>run cliente</th>
+            <th>run empleado</th>
+            <th>tipo solicitud</th>
+            <th>fecha solicitud</th>
+          </tr>
+        </thead>
+        {% for item in data %}
+        <tbody>
+            
+          <tr>
+            <td>{{item.id_solicitud}}</td>
+            <td>{{item.run_cli}}</td>
+            <td>{{item.run_emp}}</td>
+            <td>{{item.tipo_solicitud}}</td>
+            <td>{{item.fecha_solicitud}}</td>
+          </tr>
+            
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+</head>
+</html>
+{%endblock body%}

@@ -87,26 +87,30 @@
                   <a class="btn btn-primary btn-block" href="{% url 'sol_informe' %}" style="margin:80px 40px">Crear solicitud</a>
                 </div>
                 {% else %}
-
+                <div class="col">
+                  <p class="h1 text-center">Debes iniciar sesion para acceder a tus listas</p>
+                  <div class="d-flex justify-content-center">
+                    <a class="btn btn-primary btn-block" href="{% url 'login' %}" style="margin:80px 40px">Iniciar sesion</a>
+                  </div>
+                </div>
                 {% endif %}
                 
               </div>
-              <div class="col"> 
+               
+                
                 {% if user.is_authenticated %}
+              <div class="col">
                 <p class="h1 text-center">Haga click aqui para ver la lista de sus solicitudes</p>
                 <div class="d-flex justify-content-center">
                   <a class="btn btn-primary btn-block" href="{% url 'lista' %}" style="margin:80px 40px">Ver lista</a>
                 </div>
+              </div>
                 {% else %}
-                
-                <p class="h1 text-center">Debes iniciar sesion para acceder a tus listas</p>
-                <div class="d-flex justify-content-center">
-                  <a class="btn btn-primary btn-block" href="{% url 'login' %}" style="margin:80px 40px">Iniciar sesion</a>
-                </div>
+
                 {% endif %}
                 
                   
-              </div>
+              
             </div>
             <hr>
             <p class="h1 text-center">Quienes somos ?</p>

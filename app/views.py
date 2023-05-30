@@ -110,7 +110,10 @@ def usuariopag(request):
 
 @login_required
 def lista_view(request): 
-        return render(request,'lista.html')
+        queryset = Solicitud.objects.all()
+        serializer = SolicitudSerializer(queryset, many=True)
+        context = {'data': serializer.data}
+        return render(request, 'lista.html', context)
 
 
 @login_required

@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Banco(models.Model):
-    idbanco = models.AutoField(primary_key=True)
+    idbanco = models.IntegerField(primary_key=True)
     nombreclib = models.CharField(max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     apellidoclib = models.CharField(max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     telefonoclib = models.CharField(max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
@@ -17,13 +17,19 @@ class Banco(models.Model):
 
 
 class Cliente(models.Model):
-    idcliente = models.AutoField(primary_key=True)
+    idcliente = models.IntegerField(primary_key=True)
     nombrecli = models.CharField(max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     apellidocli = models.CharField(max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     telefonocli = models.CharField(max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     emailcli = models.CharField(max_length=100, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     direcli = models.CharField(max_length=100, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
     servicio = models.CharField(max_length=100, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.idcliente:  # Verificar si no se ha asignado un ID
+            last_id = Cliente.objects.order_by('-idcliente').first()
+            self.idcliente = 1 if last_id is None else last_id.idcliente + 1
+        super(LogHistorialcliente, self).save(*args, **kwargs)
 
     class Meta:
         managed = False
@@ -55,7 +61,7 @@ class Inspeccion(models.Model):
 
 
 class LogHistorialcliente(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    id = models.IntegerField(db_column='ID', primary_key=True)  # Field name made lowercase.
     fecha = models.DateTimeField(db_column='FECHA', blank=True, null=True)  # Field name made lowercase.
     descripcion = models.CharField(db_column='DESCRIPCION', max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)  # Field name made lowercase.
     usuario = models.CharField(db_column='USUARIO', max_length=20, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)  # Field name made lowercase.
@@ -66,10 +72,12 @@ class LogHistorialcliente(models.Model):
 
 
 class LogHistorialeqinsp(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    id = models.IntegerField(db_column='ID', primary_key=True)  # Field name made lowercase.
     fecha = models.DateTimeField(db_column='FECHA', blank=True, null=True)  # Field name made lowercase.
     descripcion = models.CharField(db_column='DESCRIPCION', max_length=40, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)  # Field name made lowercase.
     usuario = models.CharField(db_column='USUARIO', max_length=20, db_collation='Modern_Spanish_CI_AS', blank=True, null=True)  # Field name made lowercase.
+
+
 
     class Meta:
         managed = False
@@ -87,7 +95,13 @@ class Salida(models.Model):
 
 
 class Solicitud(models.Model):
-    id_solicitud = models.AutoField(primary_key=True)
+
+    OPCIONES = (
+    ('1', 'Reparacion'),
+    ('2', 'Remodelacion'),
+    ('3', 'Otros'),
+)
+    id_solicitud = models.IntegerField(primary_key=True)
     run_cli = models.CharField(max_length=12, db_collation='Modern_Spanish_CI_AS')
     run_emp = models.CharField(max_length=12, db_collation='Modern_Spanish_CI_AS')
     tipo_solicitud = models.CharField(max_length=12,blank=True, null=True)
@@ -102,6 +116,8 @@ class Solicitud(models.Model):
     class Meta:
         managed = True
         db_table = 'SOLICITUD'
+
+        
 
 
 class AdminInterfaceTheme(models.Model):
@@ -205,6 +221,7 @@ class AuthUser(models.Model):
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
+    
 
     class Meta:
         managed = False
